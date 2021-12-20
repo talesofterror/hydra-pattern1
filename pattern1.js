@@ -19,16 +19,16 @@ var hydra = new Hydra({
   // }
 
 
-var osc1 = () => Math.sin(time / 0.5 * 10) + 150;
+var sine = () => Math.sin(time / 0.5 * 10) + 150;
 var kVal = () => Math.sin(time / 0.4 * 1) * 50 + 5;
 var t = () => time;
-var switchTime = 20;
-osc(osc1, 0, 5)
+var swaySpeed = 20;
+osc(sine, 0, 5)
 .kaleid(kVal)
-.sub(shape([5, 3].fast(switchTime), [0.2, 0.05].fast(switchTime), 0.5)
+.sub(shape([5, 3].fast(swaySpeed), [0.2, 0.05].fast(swaySpeed), 0.5)
     .rotate(0.5, 1))
-.diff(shape([3, 5].fast(switchTime), [0.05, 0.2].fast(switchTime), 0.5)
-    .modulate(osc(osc1, 0, 0))
+.diff(shape([3, 5].fast(swaySpeed), [0.05, 0.2].fast(swaySpeed), 0.5)
+    .modulate(osc(sine, 0, 0))
     .rotate(0.5, -1)
 )
 
@@ -36,7 +36,7 @@ osc(osc1, 0, 5)
     .thresh(1)
     .kaleid(999)
     .color(1, 0, 0.2)
-    .modulate(noise([100, 50, 150].fast(switchTime), 0)
+    .modulate(noise([100, 50, 150].fast(swaySpeed), 0)
         .kaleid(99)).diff(osc(1, 0.2, 0)).pixelate(10, 5)
 // .diff(shape(99, osc1, 0))
 )

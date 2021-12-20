@@ -28,13 +28,13 @@ var hydra = new Hydra({
 
 s0.initImage("assets/MORSHU.png");
 src(s0)
-	.modulate(osc(0.5, 0.5, 0)
-		.diff(osc(1, 0.5, 0.5)
-			.rotate(0))).modulate(noise(1)).posterize(10, 2)
+	.modulate(osc(0.6, 0.5, 0)
+		.diff(osc(1, 0.6, 0)
+			.rotate(0))).modulate(noise(1)).posterize(5, 2)
 	.diff(src(s0)
-		.diff(osc(0.6, 5, 2))
-		.posterize(5, 3))
+		.diff(osc(0.6, 1, 2))
+		.posterize(5, 10))
 .diff(src(s0)
-		.diff(noise(0.6, 0.5, 2))
+		.modulate(noise(0.6, 0.5, 1))
 		.posterize(2, 2))
 	.out();
