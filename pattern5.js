@@ -19,13 +19,14 @@ src(s0)
 
 
 out1osc1(wave1Size, 0.1, wave1Shift)
-  .rotate( ({time}) =>  wave1RotSine() + wave1Rotation, 0)
+  .rotate( ({time}) =>  wave1RotSine()  
+    + wave1Rotation, 0)
   .add(
     out1osc1(wave1Size/5, -0.1, wave1Shift)
       .rotate(wave1Rotation, 0)
     .modulate(
       osc(40, 0, 0)
-        .thresh(0.01)
+        .thresh(0.5)
         .rotate(wave1Rotation - 0.2, 0)  
      , 0.035 )
   )
@@ -48,7 +49,7 @@ src(o0)
   // .posterize(10, 10)
   // .modulate(o2, 0.009)
   .modulate(
-    osc(50, 0.2, 0)
+    osc(0, 0.2, 0)
       .rotate(wave1Rotation - 0.2)
     .thresh(0.01)
   , 0.0065

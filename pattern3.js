@@ -18,6 +18,6 @@ src(o0).posterize(10, 3).modulate(osc(1, 1, 0.5))
 src(o2).modulate(osc(0.01, 0.01, 1)).diff(o0).kaleid(6).scrollX(1.5).rotate(0, 0.5).repeatX(2).repeatY(2)
 .out(o1)
 
-osc(50, 0.5, 1).modulate(osc(5).rotate(1)).add(noise([0.2, 1, 0.5], 5)).modulate(o2).out(o3)
+osc(50, 0.1, 1).modulate(osc(10).rotate(1)).add(noise([0.5, 1, 0.5], 5)).diff(o2).out(o3)
 
- render(o3)
+ render()
