@@ -18,11 +18,9 @@ var hydra = new Hydra({
     luma( () => Math.abs(Math.sin(time* 0.05)), 1).
     add(osc(oscSize, ()=>Math.sin(-0.05), 10)).
     posterize(1, 1).
-    modulate(osc(100, ()=>Math.sin(0.05), 0.5).luma(0, 0).
-    rotate(1.57)
-      ).
-    add(shape(100, 0.5, 0.005).scale(1, 0.5, 1)
-      ).
+    modulatePixelate(osc(100, ()=>Math.sin(0.05), 0.5).luma(0, 0).
+    rotate(1.57), ()=>Math.sin(time*1.5), ()=>Math.sin(time*0.5)).
+    add(shape(100, 0.5, 0.005).scale(1, 0.5, 1)).
     // luma().
     out(o0)
 
@@ -46,12 +44,10 @@ var hydra = new Hydra({
   osc(8, 0.5, 0).
     scrollX(0.5).
     luma( () => Math.abs(Math.sin(time*0.5)), 1).
-    add(osc(8, 0.5, 10)
-      ).
+    add(osc(8, 0.5, 10)).
     posterize(0.8, 1).
     modulate(osc(0.4, 10, 0.5).luma(1, 0).
-      rotate(1.57, 11.5)
-      ).
+      rotate(1.57, 11.5)).
     modulate(osc(8, 2, 0).
       rotate(2, 1.5)).
     rotate(-1.5, 0).
@@ -69,7 +65,9 @@ var hydra = new Hydra({
     diff(o1).
       invert().
     diff(o2).
-    
+    modulateScale(osc(2, 2, ()=>Math.sin(time * 5)).
+      sub(shape(100, 0.5, 0.005).scale(1, 0.5, 1))
+        ).
     // modulatePixelate(o0).
     out(o3)
 
