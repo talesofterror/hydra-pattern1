@@ -21,8 +21,13 @@ function onMIDIFailure() {
 console.log('Could not access your MIDI devices.');
 }
 
+
+// MIDI INPUT CODE!!
+// Novation Launchkey rotary controls = ()=>cc[<21-28>]
+// Novation Launchkey pad controls = ()=>cc[<40-47>]
+// Novation Launchkey slider 9 controls = ()=>cc[<7>]
 //create an array to hold our cc values and init to a normalized value
-var cc=Array(128).fill(0.5)
+var cc=Array(128).fill(0.0)
 
 getMIDIMessage = function(midiMessage) {
 var arr = midiMessage.data    
@@ -47,7 +52,7 @@ var pulse2 = () => 0.05 * Math.sin(time / 0.2) + 25
 
 var pulse3 = () => 5 * Math.sin(( Math.sin(time * 2)) / 5) + 5
 var pulse4 = () => -5 * Math.sin(( Math.sin(time * 2)) / 5) + 0.5
-var pulse5 = () => 0.09 * Math.sin(time / 0.3) + 0.1
+var pulse5 = () => 6 * Math.sin(time / 0.2) + 3
 
 var unitSine = () => Math.sin(((Math.PI * 0.7) * 5))
 
@@ -65,31 +70,36 @@ src(s0)
     .scrollX(0, 0)
     .rotate(pulse1, 0.5)
   .add(
-    r().scrollX(pulse3, 0.1)
+    r().scrollX(pulse1, 0.1)
     .scrollY(pulse3, 0.1)
-    .rotate(pulse3, 0.5)
+    .rotate(pulse1, 0.5)
     .scale(0.5, 0.5))
 //   .thresh(0.6, 0.3)
-  .mult(o1, ()=>cc[41])
+  .diff(src(o2).color( ()=>cc[25], ()=>cc[26], ()=>cc[27] ), ()=>cc[41] * 10)
   .diff(o2)
 //   .mult(o3)
-    .sub(osc( ()=>cc[23]*1000, 0.2, 10)
-        .kaleid( ()=>cc[24]*6)
+    .diff(osc( () => cc[40], 0.2, 10)
+        .kaleid( 6)
     , ()=>cc[28])
+    .sub(o1)
+    .add(src(o2), ()=>cc[40])
+    .add(src(o3).luma(1,0.5))
+    .kaleid(()=>cc[21] * 5)
 .out(o0)
 
 solid(1, 1, 1)
     .mult(s0)
-        .scrollY(0.5, pulse1)
+        .scrollY(0.5, 0)
         .scrollX(0, 0)
-        .rotate(pulse1, [0.51, -0.49, -0.51].fast(20))
+        .rotate(pulse1, 0.51)
     .color( ()=>cc[25], ()=>cc[26], ()=>cc[27])
+    .thresh(0.4)
 .out(o1)
 
 src(s0)
         .scrollX(pulse3, 0.1)
-        .scrollY(pulse3, 0.1)
-        .rotate(pulse3, 0.5)
+        .scrollY(pulse5, 0.1)
+        .rotate(pulse1, 0.5)
         .scale(0.5, 0.5)
         .posterize(1, 0.2)
         .color(0, 1, 1)
@@ -98,10 +108,10 @@ src(s0)
         .invert(pulse4)
         .modulate(o1)
     .sub(r()
-        .thresh(0.1, ()=>cc[21])
+        .thresh(0.1, 0.1)
         .scrollY(0.5, pulse1)
-        .scrollX(() => cc[22], 0)
-        .rotate(pulse1, [0.51, 0.5].fast(20))
+        .scrollX(0.5, 0)
+        .rotate(pulse1, 0.51)
     , ()=>cc[40])
 .out(o2)
 
@@ -110,7 +120,7 @@ src(s0)
     // .thresh(0.7, 0)
     .scrollY(0.5, pulse1)
     .scrollX(0, 0)
-    .rotate(pulse1, [0.51, -0.49, -0.51].fast(20))
+    .rotate(pulse1, 0.51)
     .posterize(10, 0.3)
     .color(1,0,1)
     // .invert(pulse1)
@@ -118,7 +128,7 @@ src(s0)
     
 .out(o3)
 
-render(o0);
+render();
 
 
 setResolution(1080, 1080);
